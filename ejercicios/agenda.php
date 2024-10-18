@@ -10,12 +10,36 @@
 <body>
 
     <?php
+    //En la cabecera, del titulo de la tabla, añadir un enlace a los litulos para que cuando pulses solo salga el campo seleccionado, tambien añadir un checkbox al lado de cada registro para que al seleccionar, borrar dicho registro.
     // Inicializamos la variable agenda que almacenará todos los registros
     $agenda = "";
 
     // Si la agenda ya fue enviada previamente (por el formulario), la recuperamos
     if (isset($_GET['Agenda'])) {
         $agenda = $_GET['Agenda']; // Recuperamos la cadena de la agenda
+    }
+
+    if (isset($_GET['Campo'])) {// Si me ha llegado un campo de ordenación
+        //Ordenamos la agenda por ese campo
+
+        $campo  = $_GET['Campo']; //Recuperamos el campo de ordenación
+
+        $campoOrd=array("Dni","Nombre","Apellido1","Apellido2");
+
+        $pos=array_search($campo, $campoOrd);// Buscamos la posición de ese campo
+
+        $filas=explode("|",$agenda);// Convertimos el string en un array de filas
+
+        $filasOrd=array();//Array donde van a guradarse las filas ordenadas por ese campo
+
+        foreach ($filas as $clave => $fila) {
+            $campos=explode(",",$fila);
+
+            $filasOrd[$campos[$pos]]=$fila; 
+        }
+
+        ksort($filasOrd);
+        $agenda=implode("|");
     }
 
     // Si se presiona el botón "Guardar"
@@ -57,18 +81,21 @@
         // Mostramos los datos en una tabla
         echo "<table border='2'>
                 <tr>
-                    <th>DNI</th>
-                    <th>Nombre</th>
-                    <th>Primer Apellido</th>
-                    <th>Segundo Apellido</th>
+                    <th>Select</th>
+                    <th><a href='$_SERVER[PHP_SELF]?Campo=dni&Agenda=$agenda'>DNI</a></th>
+                    <th><a href='$_SERVER[PHP_SELF]?Campo=nombre&Agenda=$agenda'>Nombre</a></th>
+                    <th><a href='$_SERVER[PHP_SELF]?Campo=apellido1&Agenda=$agenda'>Primer Apellido</a></th>
+                    <th><a href='$_SERVER[PHP_SELF]?Campo=apellido2&Agenda=$agenda'>Segundo Apellido</a></th>
                 </tr>";
 
         $registros = explode("|", $agenda); // Convertimos la cadena en un array
 
         foreach ($registros as $registro) {
+            echo "<tr>";
+            echo "<td><input type='checkbox' name='' id=''></td>";
             if (!empty($registro)) {
                 list($dni, $nombre, $apellido1, $apellido2) = explode(",", $registro); // Extraemos los campos
-                echo "<tr>";
+                
                 echo "<td>$dni</td>";
                 echo "<td>$nombre</td>";
                 echo "<td>$apellido1</td>";
@@ -85,10 +112,10 @@
     <fieldset>
         <form action="<?php echo $_SERVER['PHP_SELF'] ?>">
 
-            DNI: <input type="text" name="DNI" required><br><br>
-            Nombre: <input type="text" name="Nombre" required><br><br>
-            Primer Apellido: <input type="text" name="Apellido1" required><br><br>
-            Segundo Apellido: <input type="text" name="Apellido2" required><br><br>
+            DNI: <input type="text" name="DNI" ><br><br>
+            Nombre: <input type="text" name="Nombre" ><br><br>
+            Primer Apellido: <input type="text" name="Apellido1" ><br><br>
+            Segundo Apellido: <input type="text" name="Apellido2" ><br><br>
 
             <?php
             // Campo oculto para almacenar los datos de la agenda en una cadena
