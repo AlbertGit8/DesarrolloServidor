@@ -1,0 +1,6 @@
+106:Despliegue:2:190
+107:Servidor:2:265
+108:Diseño de interfaces:2:67
+109:Empresa:2:12
+110:Cliente:2:34
+111:Programacion:2:65
