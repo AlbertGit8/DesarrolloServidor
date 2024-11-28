@@ -109,6 +109,32 @@ function consultaDatos($consulta) {
 }
 
 /**
+ * Ejecuta una consulta SQL y devuelve la primera fila de resultados.
+ *
+ * @param string $consulta La consulta SQL a ejecutar.
+ *
+ * @return array La primera fila de resultados como un array asociativo, o un array vacío si no hay resultados.
+ *
+ * @throws RuntimeException Si la consulta falla, se muestra un mensaje de error y el script sale.
+ */
+function consultaUnaFila($consulta)
+{
+    $db = conectar();
+
+    $resul = mysqli_query($db, $consulta);
+
+    if ($resul) {
+        $filas = mysqli_fetch_assoc($resul);
+    } else {
+        echo mysqli_error($db);
+    }
+
+    cerrar($db);
+
+    return $filas;
+}
+
+/**
  * Cierra la conexion a la base de datos.
  *
  * @param mysqli $db La conexion de la base de datos a cerrar.

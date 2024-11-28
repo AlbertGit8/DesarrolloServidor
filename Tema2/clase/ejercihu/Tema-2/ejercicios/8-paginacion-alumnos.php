@@ -91,7 +91,7 @@
 
     $user = "root";
 
-    $password = ""; //por defecto en blanco
+    $password = "root"; //por defecto en blanco
 
     $database = "tema2";
 
