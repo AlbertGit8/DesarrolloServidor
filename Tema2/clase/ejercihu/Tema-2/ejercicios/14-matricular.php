@@ -60,7 +60,7 @@
         foreach ($arrayTabla as $fila) {
 
             echo "<tr>
-            <td><input type='checkbox' name='alumnosSeleccionados[$fila[$campoIdentificador]]'></td> ";
+            <td><input type='checkbox' name='alumnosSeleccionados[    [$campoIdentificador]]'></td> ";
 
             foreach ($fila as $valor) {
                 echo "<td> $valor </td>";
